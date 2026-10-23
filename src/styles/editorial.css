@@ -106,3 +106,14 @@
   .detail-description{font-size:14px}.toc{border-radius:0}.prose h2{font-size:27px}.not-found h1{font-size:34px}
 }
 @media(prefers-reduced-motion:reduce){.will-reveal{opacity:1;transform:none}}
+
+/* A little more ink, including single-weight Songti/SimSun fallbacks. */
+body{font-weight:500}
+.brand,.eyebrow{font-weight:500}
+.hero h1,.hero-english,.section-heading h2,.research-placeholder h3,
+.research-grid h3,.project-copy h3,.project-empty h3,.article-row h3,
+.writing-empty h3,.about-grid h2,.footer-brand,.listing h1,
+.listing-empty h2,.detail-header h1,.prose h2,.prose h3,.not-found h1{
+  font-weight:500;
+  -webkit-text-stroke:.15px currentColor;
+}

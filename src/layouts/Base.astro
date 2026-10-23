@@ -32,7 +32,7 @@ const canonical = new URL(path, Astro.site);
     <a class="skip-link" href="#main">跳至内容</a>
     <header class="site-header">
       <div class="nav-shell">
-        <a class="brand" href="/" aria-label="首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m14 2 12 7v10l-12 7-12-7V9Z"/><path d="m2 9 12 7 12-7M14 16v10M8 5.5l12 7v10"/></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
+        <a class="brand" href="/" aria-label={`${profile.name || '个人主页'} / PERSONAL SPACE · 首页`}><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m14 2 12 7v10l-12 7-12-7V9Z"/><path d="m2 9 12 7 12-7M14 16v10M8 5.5l12 7v10"/></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="打开导航菜单"><span></span><span></span></button>
         <nav id="main-nav" aria-label="主导航">
           <a href="/#research">研究 <span>Research</span></a>
@@ -82,3 +82,4 @@ const canonical = new URL(path, Astro.site);
     </script>
   </body>
 </html>
+

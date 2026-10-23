@@ -1,0 +1,9 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+---
+<a class="project-card" href={`/projects/${project.id}/`}>
+  <div class="project-art"><img src={project.data.cover} alt={project.data.coverAlt} width="1600" height="1000" loading="lazy" /></div>
+  <div class="project-copy"><div class="tags">{project.data.tags.map(tag => <span>{tag}</span>)}{(project.data.demo || project.data.draft) && <span class="demo-tag">{project.data.demo ? '演示内容' : '草稿预览'}</span>}</div><h3>{project.data.title}<span aria-hidden="true">↗</span></h3><p>{project.data.description}</p></div>
+</a>

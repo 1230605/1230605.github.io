@@ -1,0 +1,11 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dateLabel } from '../lib/content';
+interface Props { article: CollectionEntry<'articles'> }
+const { article } = Astro.props;
+---
+<a class="article-row" href={`/articles/${article.id}/`}>
+  <div class="article-meta"><time datetime={article.data.date.toISOString()}>{dateLabel(article.data.date)}</time><span>{article.data.tags[0] || 'Notes'}</span></div>
+  <div><h3>{article.data.title}</h3><p>{article.data.description}</p>{(article.data.demo || article.data.draft) && <span class="demo-tag">{article.data.demo ? '演示内容' : '草稿预览'}</span>}</div>
+  <span class="row-arrow" aria-hidden="true">↗</span>
+</a>

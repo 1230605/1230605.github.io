@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleRow from '../../components/ArticleRow.astro';
+import { articles } from '../../lib/content';
+const entries = await articles();
+---
+<Base title="技术文章 / Writing"><section class="wrap listing"><p class="eyebrow">THE NOTEBOOK / 技术文章</p><h1>思考的轨迹。<span>Writing.</span></h1><p class="listing-description">记录探索的过程，也记录那些尚未解答的问题。</p>{entries.length ? <div class="article-list">{entries.map(article => <ArticleRow article={article} />)}</div> : <div class="listing-empty"><span class="empty-index">01 — ∞</span><h2>第一篇，正在酝酿。</h2><p>技术笔记与研究随想即将出现在这里。</p><a class="text-link" href="/">返回首页 →</a></div>}</section></Base>

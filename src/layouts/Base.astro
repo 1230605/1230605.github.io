@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import { profile, site } from '../data/profile';
+interface Props { title?: string; description?: string; noindex?: boolean }
+const { title, description = site.description, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} — ${profile.name || site.title}` : (profile.name || site.title);
+const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafafa" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/social.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳至内容</a>
+    <header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="/" aria-label="首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m14 2 12 7v10l-12 7-12-7V9Z"/><path d="m2 9 12 7 12-7M14 16v10M8 5.5l12 7v10"/></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="打开导航菜单"><span></span><span></span></button>
+        <nav id="main-nav" aria-label="主导航">
+          <a href="/#research">研究 <span>Research</span></a>
+          <a href="/projects/" aria-current={path.startsWith('/projects') ? 'page' : undefined}>项目 <span>Projects</span></a>
+          <a href="/articles/" aria-current={path.startsWith('/articles') ? 'page' : undefined}>文章 <span>Writing</span></a>
+          <a href="/#about">关于 <span>About</span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <a class="footer-brand" href="/">保持好奇，持续探索。<span>Stay curious. Keep exploring.</span></a>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} {profile.name || '个人主页'}</span><span>Research. Build. Share.</span><a href="#main">回到顶部 ↑</a></div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.querySelector<HTMLElement>('#main-nav');
+      function closeMenu() {
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.setAttribute('aria-label', '打开导航菜单');
+        nav?.classList.remove('is-open');
+      }
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+        nav?.classList.toggle('is-open', open);
+      });
+      nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+          closeMenu(); toggle.focus();
+        }
+      });
+      document.addEventListener('click', event => {
+        if (event.target instanceof Node && !document.querySelector('.site-header')?.contains(event.target)) closeMenu();
+      });
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const blocks = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (!motion.matches && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+        }), { threshold: 0.08 });
+        blocks.forEach(block => { block.classList.add('will-reveal'); observer.observe(block); });
+        motion.addEventListener('change', () => blocks.forEach(block => block.classList.add('revealed')));
+      }
+    </script>
+  </body>
+</html>

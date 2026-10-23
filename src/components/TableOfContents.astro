@@ -1,0 +1,31 @@
+---
+interface Props { headings: { depth: number; slug: string; text: string }[] }
+const headings = Astro.props.headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+{headings.length > 0 && <aside class="toc contents-sidebar">
+  <details open class="toc-disclosure">
+    <summary><span>ON THIS PAGE / 本页目录</span><span aria-hidden="true">↕</span></summary>
+    <nav aria-label="本页目录"><ol>{headings.map(h => <li class:list={{ 'toc-nested': h.depth === 3 }}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></nav>
+  </details>
+  <a href="#main" class="toc-top">回到页首 ↑</a>
+</aside>}
+<script>
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.contents-sidebar nav a')];
+  const targets = tocLinks.map(a => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+  let scheduled = false;
+  function highlight() {
+    let selected = 0;
+    targets.forEach((target, index) => { if (target && target.getBoundingClientRect().top <= 150) selected = index; });
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) selected = tocLinks.length - 1;
+    tocLinks.forEach((link, index) => {
+      if (index === selected) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+    scheduled = false;
+  }
+  if (tocLinks.length) {
+    highlight();
+    window.addEventListener('scroll', () => { if (!scheduled) { scheduled = true; requestAnimationFrame(highlight); } }, { passive: true });
+    window.addEventListener('resize', highlight);
+  }
+</script>

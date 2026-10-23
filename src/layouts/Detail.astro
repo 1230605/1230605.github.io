@@ -1,17 +1,28 @@
 ---
 import Base from './Base.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { articles, projects, research } from '../lib/content';
+import { sections } from '../data/sections';
 interface Props {
-  title: string; description: string; kind: 'articles' | 'projects';
+  title: string; description: string; kind: 'articles' | 'projects' | 'research'; currentId: string;
   tags: string[]; preview: boolean;
   headings: { depth: number; slug: string; text: string }[];
 }
-const { title, description, kind, tags, preview, headings } = Astro.props;
+const { title, description, kind, tags, preview, headings, currentId } = Astro.props;
+const entries = await ({ articles, projects, research }[kind])();
+const position = entries.findIndex(entry => entry.id === currentId);
+const previous = position > 0 ? entries[position - 1] : undefined;
+const next = position >= 0 ? entries[position + 1] : undefined;
 ---
 <Base title={title} description={description} noindex={preview}>
-  <article class="detail wrap"><a class="back-link" href={`/${kind}/`}>← {kind === 'articles' ? '所有文章 / Writing' : '所有项目 / Projects'}</a>
+  <article class="detail wrap"><nav class="breadcrumbs" aria-label="面包屑"><a href="/">首页</a><span>/</span><a href="/contents/">全站目录</a><span>/</span><a href={`/${kind}/`}>{sections[kind].title}</a><span>/</span><span aria-current="page">{title}</span></nav>
     <header class="detail-header">{preview && <p class="preview-banner">预览内容 · 仅用于展示模板，不会发布到正式站点。</p>}<div class="tags">{tags.map(tag => <span>{tag}</span>)}</div><h1>{title}</h1><p class="detail-description">{description}</p><slot name="meta" /></header>
     <slot name="cover" />
-    <div class="detail-grid"><div class="prose"><slot /></div>{headings.some(h => h.depth === 2) && <aside class="toc"><p class="eyebrow">ON THIS PAGE / 目录</p><nav aria-label="文章目录">{headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}</nav></aside>}</div>
-    <div class="detail-end"><span>感谢阅读。Stay curious.</span><a class="text-link" href={`/${kind}/`}>继续探索 →</a></div>
+    <div class="detail-grid"><div class="prose"><slot /></div><TableOfContents headings={headings} /></div>
+    <nav class="entry-pagination" aria-label="同栏目内容导航">
+      {previous && <a href={`/${kind}/${previous.id}/`}><small>← 上一篇</small><span>{previous.data.title}</span></a>}
+      {next && <a class="entry-next" href={`/${kind}/${next.id}/`}><small>下一篇 →</small><span>{next.data.title}</span></a>}
+    </nav>
+    <div class="detail-end"><a class="text-link" href={`/${kind}/`}>返回{sections[kind].title} →</a><a class="text-link" href="/contents/">全站目录 ↗</a></div>
   </article>
 </Base>

@@ -9,9 +9,8 @@ async function files(dir) {
 }
 test('production excludes all demo and draft details', async () => {
   const built = await files(root);
-  assert.ok(!built.some(f => /demo-(notes|building|exploration|system)/.test(f)));
+  assert.ok(!built.some(f => /demo-/.test(f)));
   const home = await readFile(path.join(root, 'index.html'), 'utf8');
-  assert.ok(home.includes('项目正在整理'));
   assert.ok(!home.includes('Ideas in Motion'));
   const map = await readFile(path.join(root, 'sitemap-0.xml'), 'utf8');
   assert.ok(!map.includes('demo-'));
@@ -27,5 +26,27 @@ test('all static internal links and assets resolve', async () => {
     assert.ok(html.includes('lang="zh-CN"'));
     assert.ok(html.includes('name="description"'));
     assert.ok(html.includes('property="og:image"'));
+  }
+});
+
+
+test('content sections and directory are generated', async () => {
+  const sitemap = await readFile(path.join(root, 'sitemap-0.xml'), 'utf8');
+  for (const section of ['research', 'projects', 'articles', 'about', 'contents']) {
+    await access(path.join(root, section, 'index.html'));
+    assert.ok(sitemap.includes(`/${section}/`));
+  }
+});
+
+test('internal fragment links have matching targets', async () => {
+  for (const file of (await files(root)).filter(f => f.endsWith('.html'))) {
+    const html = await readFile(file, 'utf8');
+    for (const [, url] of html.matchAll(/href="((?:\/[^"#]*)?#[^"]+)"/g)) {
+      const [pathname, hash] = url.split('#');
+      let target = pathname ? path.join(root, pathname) : file;
+      if (pathname.endsWith('/')) target = path.join(target, 'index.html');
+      const targetHtml = await readFile(target, 'utf8');
+      assert.ok(targetHtml.includes(`id="${decodeURIComponent(hash)}"`), `${file}: ${url}`);
+    }
   }
 });

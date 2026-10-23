@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/editorial.css';
+import '../styles/content-navigation.css';
 import { profile, site } from '../data/profile';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const { title, description = site.description, noindex = false } = Astro.props;
@@ -36,17 +37,18 @@ const canonical = new URL(path, Astro.site);
         <a class="brand" href="/" aria-label={`${profile.name || '个人主页'} / PERSONAL SPACE · 首页`}><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v18H5zM14 5v18M5 14h18"/><circle cx="14" cy="14" r="7" /></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="打开导航菜单"><span></span><span></span></button>
         <nav id="main-nav" aria-label="主导航">
-          <a href="/#research">研究 <span>Research</span></a>
+          <a href="/research/" aria-current={path.startsWith('/research') ? 'page' : undefined}>研究 <span>Research</span></a>
           <a href="/projects/" aria-current={path.startsWith('/projects') ? 'page' : undefined}>项目 <span>Projects</span></a>
           <a href="/articles/" aria-current={path.startsWith('/articles') ? 'page' : undefined}>文章 <span>Writing</span></a>
-          <a href="/#about">关于 <span>About</span></a>
+          <a href="/about/" aria-current={path.startsWith('/about') ? 'page' : undefined}>关于 <span>About</span></a>
+          <a href="/contents/" aria-current={path.startsWith('/contents') ? 'page' : undefined}>目录 <span>Index</span></a>
         </nav>
       </div>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap">
       <a class="footer-brand" href="/">保持好奇，持续探索。<span>Stay curious. Keep exploring.</span></a>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} {profile.name || '个人主页'}</span><span>Research. Build. Share.</span><a href="#main">回到顶部 ↑</a></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} {profile.name || '个人主页'}</span><a href="/contents/">全站目录 / Index</a><a href="#main">回到顶部 ↑</a></div>
     </footer>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');

@@ -24,4 +24,12 @@ const projects = defineCollection({
     paper: z.url().optional(),
   }),
 });
-export const collections = { articles, projects };
+const research = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/research' }),
+  schema: z.object({ ...shared, english: z.string().default('Research'), order: z.number().default(0) }),
+});
+const pages = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/pages' }),
+  schema: z.object({ title: z.string(), description: z.string() }),
+});
+export const collections = { articles, projects, research, pages };

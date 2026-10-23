@@ -1,0 +1,57 @@
+/* Content navigation follows the same paper-and-ink editorial system. */
+#main-nav{gap:24px}
+.listing-kicker{margin-top:32px}
+.breadcrumbs{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font-size:11px;line-height:1.8;color:var(--muted)}
+.breadcrumbs a:hover{color:var(--blue)}
+.breadcrumbs [aria-current]{color:var(--ink);overflow-wrap:anywhere}
+.detail-grid{grid-template-columns:minmax(0,1fr) 210px}
+.detail-grid>.prose{max-width:720px}
+.contents-sidebar{max-height:calc(100vh - 150px);overflow-y:auto;padding-right:8px}
+.toc-disclosure summary{display:flex;justify-content:space-between;gap:12px;font-size:9px;letter-spacing:.1em;color:var(--muted);cursor:pointer;list-style:none;padding-bottom:20px}
+.toc-disclosure summary::-webkit-details-marker{display:none}
+.toc-disclosure summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.toc-disclosure:not([open]) summary{padding-bottom:0}
+.contents-sidebar nav{display:block}
+.contents-sidebar ol{list-style:none;margin:0;padding:0}
+.contents-sidebar li+li{margin-top:13px}
+.contents-sidebar a{display:block;line-height:1.8}
+.contents-sidebar .toc-nested{padding-left:16px;font-size:10px}
+.contents-sidebar a[aria-current=location]{color:var(--blue);font-weight:600}
+.toc-top{font-size:10px;color:var(--muted);margin-top:28px;padding-top:15px;border-top:1px solid var(--line)}
+.entry-pagination{max-width:720px;display:flex;gap:40px;justify-content:space-between;margin-top:60px}
+.entry-pagination:empty{display:none}
+.entry-pagination a{display:flex;flex:1;min-width:0;max-width:50%;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--line)}
+.entry-pagination small{font-size:10px;color:var(--muted)}
+.entry-pagination span{font:20px/1.6 var(--serif);overflow-wrap:anywhere}
+.entry-pagination .entry-next{margin-left:auto;text-align:right}
+.entry-pagination a:hover span{color:var(--blue)}
+.index-jumps{display:flex;flex-wrap:wrap;gap:15px 30px;padding:22px 0;border-block:1px solid var(--line);font-size:11px}
+.index-jumps a:hover{color:var(--blue)}
+.index-group{padding-block:50px;border-bottom:1px solid var(--line);scroll-margin-top:110px}
+.index-group-heading{display:grid;grid-template-columns:65px 1fr auto;gap:22px;align-items:start}
+.entry-number{font:italic 25px var(--serif);color:var(--muted)}
+.index-group-heading h2{font:30px/1.5 var(--serif);margin:10px 0}
+.index-group-heading p:not(.eyebrow){font-size:12px;line-height:1.9;color:var(--muted)}
+.index-count{font-size:10px;color:var(--muted);padding-top:8px}
+.index-entries{margin:25px 0 0 87px;padding:0;list-style:none}
+.index-entries li{display:flex;align-items:center;gap:15px;border-top:1px solid var(--line)}
+.index-entries a{flex:1;display:flex;justify-content:space-between;gap:15px;padding:17px 0;font-size:13px;line-height:1.8}
+.index-entries a:hover,.index-group-heading a:hover{color:var(--blue)}
+.index-empty{margin:25px 0 0 87px;font-size:12px;color:var(--muted);line-height:2}
+.index-empty a{display:inline-block;margin-left:12px;color:var(--ink)}
+.research-entry{display:grid;grid-template-columns:65px 1fr 25px;gap:25px;padding:35px 0;border-top:1px solid var(--line)}
+.research-entry:last-child{border-bottom:1px solid var(--line)}
+.research-entry h2{font:28px/1.6 var(--serif);margin:15px 0}
+.research-entry p:not(.eyebrow){font-size:13px;line-height:1.9;color:var(--muted)}
+.research-entry .demo-tag{margin-top:15px}
+.research-entry:hover h2,.research-grid a:hover{color:var(--blue)}
+@media(max-width:1000px){#main-nav{gap:16px}.detail-grid{grid-template-columns:minmax(0,1fr) 180px}}
+@media(max-width:700px){
+  .contents-sidebar{max-height:none;width:100%;padding:18px 0;border:0;border-block:1px solid var(--line)}
+  .toc-disclosure summary{font-size:10px;padding-bottom:18px}.contents-sidebar nav{font-size:12px}
+  .toc-top{display:none}.entry-pagination{gap:25px}.entry-pagination span{font-size:18px}
+  .breadcrumbs{font-size:10px;gap:8px}.index-jumps{gap:15px 22px}
+  .index-group-heading{grid-template-columns:32px 1fr auto;gap:15px}.index-group-heading h2{font-size:25px}
+  .index-entries,.index-empty{margin-left:47px}.index-empty a{margin-left:0}
+  .research-entry{grid-template-columns:30px 1fr 16px;gap:15px}.research-entry h2{font-size:24px}
+}

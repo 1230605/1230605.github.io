@@ -22,9 +22,13 @@ npm run preview
 
 生产构建仅包含 `draft: false` 且 `demo: false` 的内容。没有真实内容时展示空状态，预览演示不会公开为项目详情。
 
+## 内容目录与填充模板
+
+完整说明见 [CONTENT_GUIDE.md](CONTENT_GUIDE.md)。复制 `templates/` 下的 Markdown 模板，即可新增研究、项目或文章。全站目录、页内目录和相邻内容导航会自动更新；关于页编辑 `src/content/pages/about.md`。
+
 ## 填写个人资料
 
-编辑 `src/data/profile.ts`：姓名、首屏中英文短句、简介、研究方向、邮箱、GitHub 与简历路径。空字段不生成联系方式按钮。请仅填写希望公开的信息。
+编辑 `src/data/profile.ts`：姓名、首屏中英文短句、简介、邮箱、GitHub 与简历路径。空字段不生成联系方式按钮。请仅填写希望公开的信息。
 
 ## 发布文章与项目
 

@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { research, projects, articles } from '../lib/content';
+import { sections } from '../data/sections';
+const groups = [
+  { key: 'research', entries: await research() },
+  { key: 'projects', entries: await projects() },
+  { key: 'articles', entries: await articles() },
+] as const;
+---
+<Base title="全站目录 / Index"><section class="wrap listing site-index">
+  <p class="eyebrow">A MAP OF THIS SPACE / 全站目录</p><h1>从这里展开。<span>Index.</span></h1>
+  <p class="listing-description">研究、实践、文字，以及它们背后的思考。</p>
+  <nav class="index-jumps" aria-label="栏目快速跳转">{Object.entries(sections).map(([key, section], i) => <a href={`#index-${key}`}>0{i + 1} {section.title}</a>)}</nav>
+  {groups.map(({ key, entries }, i) => <section id={`index-${key}`} class="index-group"><div class="index-group-heading"><span class="entry-number">0{i + 1}</span><div><p class="eyebrow">{sections[key].english}</p><h2><a href={`/${key}/`}>{sections[key].title} ↗</a></h2><p>{sections[key].description}</p></div><span class="index-count">{entries.length} 篇</span></div>{entries.length ? <ol class="index-entries">{entries.map(entry => <li><a href={`/${key}/${entry.id}/`}>{entry.data.title}<span aria-hidden="true">↗</span></a>{(entry.data.demo || entry.data.draft) && <span class="demo-tag">预览</span>}</li>)}</ol> : <p class="index-empty">内容待补充。<a href={`/${key}/`}>前往栏目 →</a></p>}</section>)}
+  <section id="index-about" class="index-group"><div class="index-group-heading"><span class="entry-number">04</span><div><p class="eyebrow">ABOUT</p><h2><a href="/about/">关于我 ↗</a></h2><p>{sections.about.description}</p></div></div><p class="index-empty"><a href="/about/">个人介绍</a><span> / </span><a href="/about/#contact">联系与交流</a></p></section>
+</section></Base>

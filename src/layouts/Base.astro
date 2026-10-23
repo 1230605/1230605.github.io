@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/editorial.css';
 import { profile, site } from '../data/profile';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const { title, description = site.description, noindex = false } = Astro.props;
@@ -13,7 +14,7 @@ const canonical = new URL(path, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#fafafa" />
+    <meta name="theme-color" content="#f6f4ef" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -32,7 +33,7 @@ const canonical = new URL(path, Astro.site);
     <a class="skip-link" href="#main">跳至内容</a>
     <header class="site-header">
       <div class="nav-shell">
-        <a class="brand" href="/" aria-label={`${profile.name || '个人主页'} / PERSONAL SPACE · 首页`}><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m14 2 12 7v10l-12 7-12-7V9Z"/><path d="m2 9 12 7 12-7M14 16v10M8 5.5l12 7v10"/></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
+        <a class="brand" href="/" aria-label={`${profile.name || '个人主页'} / PERSONAL SPACE · 首页`}><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v18H5zM14 5v18M5 14h18"/><circle cx="14" cy="14" r="7" /></svg><span>{profile.name || '个人主页'}<small> / PERSONAL SPACE</small></span></a>
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="打开导航菜单"><span></span><span></span></button>
         <nav id="main-nav" aria-label="主导航">
           <a href="/#research">研究 <span>Research</span></a>

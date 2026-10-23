@@ -1,0 +1,17 @@
+---
+const lines = Array.from({ length: 33 }, (_, i) => {
+  const t = i / 32;
+  return `M ${170 + t * 130} ${100 + t * 30} C ${520 - t * 95} ${15 + t * 200}, ${510 - t * 290} ${460 + t * 65}, ${285 - t * 60} ${485 - t * 40} C ${55 + t * 125} ${420 - t * 180}, ${90 + t * 260} ${110 - t * 35}, ${170 + t * 130} ${100 + t * 30}`;
+});
+---
+<figure class="study">
+  <div class="study-index"><span>FORM STUDY — 001</span><span>线与场</span></div>
+  <svg class="study-drawing" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+    <path class="study-axis" d="M60 310H540M300 45V555" />
+    <circle class="study-guide" cx="300" cy="300" r="224" />
+    <g class="study-lines">{lines.map(d => <path d={d} />)}</g>
+    <circle cx="417" cy="185" r="7" class="study-point" />
+    <path class="study-tick" d="M52 76h16m-8-8v16M532 524h16m-8-8v16" />
+  </svg>
+  <figcaption><span>秩序之中，容纳未知。</span><span>ORDER / POSSIBILITY</span></figcaption>
+</figure>
